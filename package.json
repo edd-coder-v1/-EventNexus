@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "yarn typecheck && yarn lint && tsup --clean && yalc publish && yalc push",
+    "build": "yarn typecheck && yarn lint && tsup --clean",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
