@@ -2,18 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop] # CI en ramas
+    tags:
+      - 'v*' # publica cuando haya tags tipo v0.1.0
   pull_request:
     branches: [main, develop]
+  workflow_dispatch: # permite lanzarlo manualmente
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -42,9 +43,14 @@ jobs:
         run: yarn test
 
   publish:
+    # Publica solo con tag v* o ejecución manual
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: read
+      id-token: write # necesario si usas --provenance (recomendado)
 
     steps:
       - uses: actions/checkout@v4
@@ -52,7 +58,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '20'
           cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
 
@@ -62,7 +68,18 @@ jobs:
       - name: Build
         run: yarn build
 
+      # Autenticación NPM con el secret NPM_TOKEN (Automation token)
+      - name: Set npm auth & verify
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          echo "Registry: $(npm config get registry)"
+          npm whoami || true
+          npm ping || true
+
+      # Publica paquete scoped como público; --provenance opcional pero recomendado
       - name: Publish to NPM
-        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
