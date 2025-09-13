@@ -1,27 +1,27 @@
 version: 2
 updates:
   # Enable version updates for npm
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 10
     reviewers:
-      - "tu-usuario-github"
+      - 'tu-usuario-github'
     assignees:
-      - "tu-usuario-github"
+      - 'tu-usuario-github'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
     labels:
-      - "dependencies"
-      - "javascript"
+      - 'dependencies'
+      - 'javascript'
     groups:
       dependencies:
         patterns:
-          - "*"
+          - '*'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'

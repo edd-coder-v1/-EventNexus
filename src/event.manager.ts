@@ -156,8 +156,6 @@ class NexusEventManager implements NexusEventManagerRepository {
     if (wildcard) run(wildcard);
   }
 
-
-
   /**
    * Emits an event asynchronously, invoking all associated listeners for the specified event name.
    * Listeners can be executed either sequentially or concurrently based on the provided options.

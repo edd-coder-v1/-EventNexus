@@ -63,6 +63,7 @@ Las vulnerabilidades reportadas y resueltas se documentarán aquí una vez que h
 ## Contacto
 
 Para reportar vulnerabilidades de seguridad:
+
 - Email: [email-seguridad]
 - Asunto: "SECURITY: [Descripción breve]"
 
@@ -73,6 +74,7 @@ Agradecemos a todos los investigadores de seguridad que reportan vulnerabilidade
 ## Política de Divulgación
 
 Seguimos el principio de divulgación responsable:
+
 - No divulgamos vulnerabilidades hasta que hayan sido solucionadas
 - Coordinamos la liberación de parches con los reportes
 - Proporcionamos crédito apropiado a los investigadores

@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -15,31 +15,31 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
 
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-    - name: Type check
-      run: yarn typecheck
+      - name: Type check
+        run: yarn typecheck
 
-    - name: Lint
-      run: yarn lint
+      - name: Lint
+        run: yarn lint
 
-    - name: Format check
-      run: yarn format
+      - name: Format check
+        run: yarn format
 
-    - name: Build
-      run: yarn build
+      - name: Build
+        run: yarn build
 
-    - name: Test library
-      run: yarn test
+      - name: Test library
+        run: yarn test
 
   publish:
     needs: test
@@ -47,22 +47,22 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.x'
-        cache: 'yarn'
-        registry-url: 'https://registry.npmjs.org'
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org'
 
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-    - name: Build
-      run: yarn build
+      - name: Build
+        run: yarn build
 
-    - name: Publish to NPM
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

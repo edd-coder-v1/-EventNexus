@@ -8,7 +8,7 @@ import NexusEvent from './NexusEvent.model';
  *
  * @template T Type of the payload or data associated with the event.
  */
-interface NexusEventListener<T>{
+interface NexusEventListener<T> {
   handler: (event: NexusEvent<T>) => void | Promise<void>;
 }
 

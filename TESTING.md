@@ -5,6 +5,7 @@ Esta guía te muestra cómo probar tu librería EventNexus de manera práctica y
 ## 🚀 Formas de Probar la Librería
 
 ### 1. Prueba Rápida (Recomendada)
+
 ```bash
 # Instalar dependencias de testing
 yarn install
@@ -14,12 +15,14 @@ yarn test
 ```
 
 ### 2. Prueba con Build
+
 ```bash
 # Construir la librería y probarla
 yarn test:build
 ```
 
 ### 3. Demo Interactivo
+
 ```bash
 # Ejecutar demo en carpeta separada
 yarn test:demo
@@ -28,18 +31,21 @@ yarn test:demo
 ## 📋 Qué se Prueba
 
 ### ✅ Funcionalidades Básicas
+
 - **EventsBuilder**: Creación de eventos con símbolos únicos
 - **Eventos Síncronos**: Emisión y recepción de eventos inmediatos
 - **Eventos Asíncronos**: Modo secuencial y paralelo
 - **Eventos Wildcard**: Escuchar todos los eventos con `*`
 
 ### ✅ Características Avanzadas
+
 - **Manejo de Errores**: Gestión de errores en listeners
 - **Timeouts**: Cancelación de operaciones lentas
 - **Abort Signals**: Cancelación manual de operaciones
 - **Debug Mode**: Logging detallado para desarrollo
 
 ### ✅ Escenarios Reales
+
 - **E-commerce**: Flujo completo de compra
 - **Notificaciones**: Sistema de alertas
 - **Autenticación**: Login/logout de usuarios
@@ -47,43 +53,49 @@ yarn test:demo
 ## 🎯 Casos de Uso Probados
 
 ### 1. Sistema de E-commerce
+
 ```typescript
 // Usuario se loguea
 eventManager.emit({
   name: 'user:login',
-  payload: { name: 'Juan', email: 'juan@example.com' }
+  payload: { name: 'Juan', email: 'juan@example.com' },
 });
 
 // Crea una orden
 eventManager.emit({
   name: 'order:created',
-  payload: { orderId: 'ORD-001', total: 99.99 }
+  payload: { orderId: 'ORD-001', total: 99.99 },
 });
 
 // Procesa pago (asíncrono)
-await eventManager.emitAsync({
-  name: 'order:paid',
-  payload: { orderId: 'ORD-001', amount: 99.99 }
-}, { mode: 'sequential' });
+await eventManager.emitAsync(
+  {
+    name: 'order:paid',
+    payload: { orderId: 'ORD-001', amount: 99.99 },
+  },
+  { mode: 'sequential' }
+);
 ```
 
 ### 2. Sistema de Notificaciones
+
 ```typescript
 // Listener wildcard para todas las notificaciones
 eventManager.register('*', {
-  handler: (event) => {
+  handler: event => {
     console.log(`Notificación: ${event.name}`);
-  }
+  },
 });
 
 // Enviar notificación
 eventManager.emit({
   name: 'notification:sent',
-  payload: { message: 'Tu orden está lista', recipient: 'user@example.com' }
+  payload: { message: 'Tu orden está lista', recipient: 'user@example.com' },
 });
 ```
 
 ### 3. Manejo de Errores
+
 ```typescript
 // Configurar manejo de errores personalizado
 NexusEventManager.onError = (error, info) => {
@@ -92,12 +104,12 @@ NexusEventManager.onError = (error, info) => {
 
 // Listener que puede fallar
 eventManager.register('risky:operation', {
-  handler: (event) => {
+  handler: event => {
     if (Math.random() > 0.5) {
       throw new Error('Operación falló');
     }
     console.log('Operación exitosa');
-  }
+  },
 });
 ```
 
@@ -111,13 +123,17 @@ NexusEventManager.debug = true;
 
 // Configurar callback de error personalizado
 NexusEventManager.onError = (error, info) => {
-  console.error(`Error en evento "${info.event}" (listener ${info.listenerIndex}):`, error);
+  console.error(
+    `Error en evento "${info.event}" (listener ${info.listenerIndex}):`,
+    error
+  );
 };
 ```
 
 ## 📊 Interpretando los Resultados
 
 ### ✅ Salida Exitosa
+
 ```
 🚀 Iniciando demostración de EventNexus...
 
@@ -136,6 +152,7 @@ NexusEventManager.onError = (error, info) => {
 ```
 
 ### ⚠️ Errores Esperados
+
 - **Timeouts**: `⏰ Timeout: Timeout` (operación cancelada por tiempo)
 - **Errores de Listener**: `❌ Error en evento "test:error"` (manejo de errores)
 

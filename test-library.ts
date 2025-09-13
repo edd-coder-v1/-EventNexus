@@ -29,7 +29,10 @@ async function runDemo() {
 
   // Configurar manejo de errores personalizado
   NexusEventManager.onError = (error, info) => {
-    console.error(`❌ Error en evento "${info.event}" (listener ${info.listenerIndex}):`, error);
+    console.error(
+      `❌ Error en evento "${info.event}" (listener ${info.listenerIndex}):`,
+      error
+    );
   };
 
   // ========================================
@@ -48,26 +51,30 @@ async function runDemo() {
 
   // Registrar listeners
   eventManager.register('user:login', {
-    handler: (event) => {
-      console.log(`👤 Usuario logueado: ${event.payload.name} (${event.payload.email})`);
-    }
+    handler: event => {
+      console.log(
+        `👤 Usuario logueado: ${event.payload.name} (${event.payload.email})`
+      );
+    },
   });
 
   eventManager.register('order:created', {
-    handler: (event) => {
-      console.log(`🛒 Nueva orden: #${event.payload.orderId} - $${event.payload.total}`);
-    }
+    handler: event => {
+      console.log(
+        `🛒 Nueva orden: #${event.payload.orderId} - $${event.payload.total}`
+      );
+    },
   });
 
   // Emitir eventos
   eventManager.emit({
     name: 'user:login',
-    payload: { name: 'Juan Pérez', email: 'juan@example.com' }
+    payload: { name: 'Juan Pérez', email: 'juan@example.com' },
   });
 
   eventManager.emit({
     name: 'order:created',
-    payload: { orderId: 'ORD-001', total: 99.99 }
+    payload: { orderId: 'ORD-001', total: 99.99 },
   });
 
   console.log('');
@@ -79,14 +86,14 @@ async function runDemo() {
   console.log('====================================');
 
   eventManager.register('*', {
-    handler: (event) => {
+    handler: event => {
       console.log(`🔔 [WILDCARD] Evento: "${event.name}"`);
-    }
+    },
   });
 
   eventManager.emit({
     name: 'user:logout',
-    payload: { userId: 'user-123' }
+    payload: { userId: 'user-123' },
   });
 
   console.log('');
@@ -98,21 +105,24 @@ async function runDemo() {
   console.log('==================================');
 
   eventManager.register('order:paid', {
-    handler: async (event) => {
+    handler: async event => {
       console.log(`💳 Procesando pago para orden #${event.payload.orderId}...`);
       await delay(1000);
       console.log(`✅ Pago completado para orden #${event.payload.orderId}`);
-    }
+    },
   });
 
   // Modo secuencial
   console.log('🔄 Modo secuencial:');
-  await eventManager.emitAsync({
-    name: 'order:paid',
-    payload: { orderId: 'ORD-002', amount: 149.99 }
-  }, {
-    mode: 'sequential'
-  });
+  await eventManager.emitAsync(
+    {
+      name: 'order:paid',
+      payload: { orderId: 'ORD-002', amount: 149.99 },
+    },
+    {
+      mode: 'sequential',
+    }
+  );
 
   console.log('');
 
@@ -123,21 +133,21 @@ async function runDemo() {
   console.log('==================================');
 
   eventManager.register('test:error', {
-    handler: (_event) => {
+    handler: _event => {
       console.log(`🧪 Procesando evento de prueba...`);
       throw new Error('Error simulado para testing');
-    }
+    },
   });
 
   eventManager.register('test:error', {
-    handler: (_event) => {
+    handler: _event => {
       console.log(`✅ Segundo listener ejecutado`);
-    }
+    },
   });
 
   eventManager.emit({
     name: 'test:error',
-    payload: { test: true }
+    payload: { test: true },
   });
 
   console.log('');
@@ -149,21 +159,24 @@ async function runDemo() {
   console.log('==========================');
 
   eventManager.register('slow:operation', {
-    handler: async (_event) => {
+    handler: async _event => {
       console.log(`🐌 Iniciando operación lenta...`);
       await delay(2000);
       console.log(`✅ Operación completada`);
-    }
+    },
   });
 
   try {
-    await eventManager.emitAsync({
-      name: 'slow:operation',
-      payload: { data: 'test' }
-    }, {
-      mode: 'sequential',
-      timeOutMs: 1000
-    });
+    await eventManager.emitAsync(
+      {
+        name: 'slow:operation',
+        payload: { data: 'test' },
+      },
+      {
+        mode: 'sequential',
+        timeOutMs: 1000,
+      }
+    );
   } catch (error) {
     console.log(`⏰ Timeout: ${error.message}`);
   }
@@ -182,27 +195,30 @@ async function runDemo() {
   // Login
   eventManager.emit({
     name: 'user:login',
-    payload: { name: 'Ana López', email: 'ana@example.com' }
+    payload: { name: 'Ana López', email: 'ana@example.com' },
   });
 
   // Crear orden
   eventManager.emit({
     name: 'order:created',
-    payload: { orderId: 'ORD-003', total: 299.99 }
+    payload: { orderId: 'ORD-003', total: 299.99 },
   });
 
   // Procesar pago
-  await eventManager.emitAsync({
-    name: 'order:paid',
-    payload: { orderId: 'ORD-003', amount: 299.99 }
-  }, {
-    mode: 'sequential'
-  });
+  await eventManager.emitAsync(
+    {
+      name: 'order:paid',
+      payload: { orderId: 'ORD-003', amount: 299.99 },
+    },
+    {
+      mode: 'sequential',
+    }
+  );
 
   // Logout
   eventManager.emit({
     name: 'user:logout',
-    payload: { userId: 'user-456' }
+    payload: { userId: 'user-456' },
   });
 
   console.log('\n✅ Flujo completado!');

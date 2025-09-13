@@ -31,15 +31,15 @@ const eventManager = NexusEventManager.getInstance();
 
 // Registrar un listener
 eventManager.register('user:login', {
-  handler: (event) => {
+  handler: event => {
     console.log(`Usuario logueado: ${event.payload.name}`);
-  }
+  },
 });
 
 // Emitir un evento
 eventManager.emit({
   name: 'user:login',
-  payload: { name: 'Juan Pérez', email: 'juan@example.com' }
+  payload: { name: 'Juan Pérez', email: 'juan@example.com' },
 });
 ```
 
@@ -47,22 +47,28 @@ eventManager.emit({
 
 ```typescript
 // Modo secuencial
-await eventManager.emitAsync({
-  name: 'order:paid',
-  payload: { orderId: 'ORD-001', amount: 99.99 }
-}, {
-  mode: 'sequential',
-  stopOnError: true
-});
+await eventManager.emitAsync(
+  {
+    name: 'order:paid',
+    payload: { orderId: 'ORD-001', amount: 99.99 },
+  },
+  {
+    mode: 'sequential',
+    stopOnError: true,
+  }
+);
 
 // Modo paralelo
-await eventManager.emitAsync({
-  name: 'notification:sent',
-  payload: { message: 'Orden procesada', recipient: 'user@example.com' }
-}, {
-  mode: 'parallel',
-  timeOutMs: 5000
-});
+await eventManager.emitAsync(
+  {
+    name: 'notification:sent',
+    payload: { message: 'Orden procesada', recipient: 'user@example.com' },
+  },
+  {
+    mode: 'parallel',
+    timeOutMs: 5000,
+  }
+);
 ```
 
 ### Eventos Wildcard
@@ -70,12 +76,11 @@ await eventManager.emitAsync({
 ```typescript
 // Escuchar todos los eventos
 eventManager.register('*', {
-  handler: (event) => {
+  handler: event => {
     console.log(`Evento detectado: ${event.name}`);
-  }
+  },
 });
 ```
-
 
 ## ⚙️ Configuración
 
@@ -108,15 +113,21 @@ NexusEventManager.maxListeners = 10; // Límite de listeners por evento
 eventManager.emit({ name: 'user:login', payload: userData });
 eventManager.emit({ name: 'order:created', payload: orderData });
 
-await eventManager.emitAsync({
-  name: 'order:paid',
-  payload: paymentData
-}, { mode: 'sequential' });
+await eventManager.emitAsync(
+  {
+    name: 'order:paid',
+    payload: paymentData,
+  },
+  { mode: 'sequential' }
+);
 
-await eventManager.emitAsync({
-  name: 'notification:sent',
-  payload: notificationData
-}, { mode: 'parallel' });
+await eventManager.emitAsync(
+  {
+    name: 'notification:sent',
+    payload: notificationData,
+  },
+  { mode: 'parallel' }
+);
 ```
 
 ### Sistema de Notificaciones
@@ -124,13 +135,11 @@ await eventManager.emitAsync({
 ```typescript
 // Listener wildcard para logging
 eventManager.register('*', {
-  handler: (event) => {
+  handler: event => {
     console.log(`[${new Date().toISOString()}] ${event.name}`, event.payload);
-  }
+  },
 });
 ```
-
-
 
 ## 📚 API Reference
 
@@ -176,7 +185,6 @@ interface EmitAsyncOptions {
   signal?: AbortSignal;
 }
 ```
-
 
 MIT
 
