@@ -4,10 +4,10 @@ on:
   push:
     branches: [main, develop] # CI en ramas
     tags:
-      - 'v*' # publica cuando haya tags tipo v0.1.0
+      - 'v*' # dispara publish al pushear tags vX.Y.Z
   pull_request:
     branches: [main, develop]
-  workflow_dispatch: # permite lanzarlo manualmente
+  workflow_dispatch: # ejecución manual
 
 jobs:
   test:
@@ -43,14 +43,14 @@ jobs:
         run: yarn test
 
   publish:
-    # Publica solo con tag v* o ejecución manual
+    # Solo publica con tag v* o si lo corres manualmente
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: test
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
-      id-token: write # necesario si usas --provenance (recomendado)
+      id-token: write # requerido si usas --provenance
 
     steps:
       - uses: actions/checkout@v4
@@ -61,6 +61,7 @@ jobs:
           node-version: '20'
           cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
+          always-auth: true # <-- hace que npm use el token del entorno
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -68,18 +69,13 @@ jobs:
       - name: Build
         run: yarn build
 
-      # Autenticación NPM con el secret NPM_TOKEN (Automation token)
-      - name: Set npm auth & verify
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          echo "Registry: $(npm config get registry)"
-          npm whoami || true
-          npm ping || true
-
-      # Publica paquete scoped como público; --provenance opcional pero recomendado
-      - name: Publish to NPM
+      # (Opcional) debug: confirma que el token se aplica al whoami
+      - name: npm whoami (debug)
+        run: npm whoami
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to NPM
         run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
