@@ -26,7 +26,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --check",
-    "format:fix": "prettier . --write"
+    "format:fix": "prettier . --write",
+    "test": "tsx test-library.ts",
+    "test:build": "yarn build && tsx test-library.ts",
+    "pre-commit": "bash scripts/pre-commit.sh",
+    "pre-commit:build": "bash scripts/pre-commit.sh --with-build",
+    "setup-husky": "bash scripts/setup-husky.sh",
+    "check-all": "yarn typecheck && yarn lint && yarn format && yarn test",
+    "fix-all": "yarn lint:fix && yarn format:fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
