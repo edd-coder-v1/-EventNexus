@@ -177,40 +177,9 @@ interface EmitAsyncOptions {
 }
 ```
 
-## 🛠️ Desarrollo
-
-```bash
-# Instalar dependencias
-yarn install
-
-# Modo desarrollo
-yarn dev
-
-# Construir
-yarn build
-
-# Linting
-yarn lint
-
-# Formatear código
-yarn format
-
-# Verificar tipos
-yarn typecheck
-```
-
-## 📄 Licencia
 
 MIT
 
 ## 🤝 Contribuir
 
 Las contribuciones son bienvenidas. Por favor, abre un issue o pull request.
-
-## 📈 Roadmap
-
-- [ ] Persistencia de eventos
-- [ ] Middleware system
-- [ ] Event replay
-- [ ] Clustering support
-- [ ] Metrics y monitoring
