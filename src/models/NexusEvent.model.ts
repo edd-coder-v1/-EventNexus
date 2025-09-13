@@ -6,9 +6,7 @@
  * @property {string} name - The name of the event.
  * @property {T} payload - The data or information associated with the event.
  */
-interface NexusEvent<T> {
+export interface NexusEvent<T> {
   name: string;
   payload: T;
 }
-
-export default NexusEvent;

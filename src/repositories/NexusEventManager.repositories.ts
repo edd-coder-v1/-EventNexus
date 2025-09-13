@@ -1,5 +1,5 @@
-import NexusEvent from '../models/NexusEvent.model';
-import NexusEventListener from '../models/NexusEventListener.model';
+import { NexusEvent } from '../models/NexusEvent.model';
+import { NexusEventListener } from '../models/NexusEventListener.model';
 import EmitAsyncOptions from '../payloads/emitAsync.payload';
 
 /**

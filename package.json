@@ -1,6 +1,9 @@
 {
   "name": "@eventnexus/core",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "EventNexus - Event management and state synchronization library",
   "license": "MIT",
   "type": "module",

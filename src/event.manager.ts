@@ -1,7 +1,7 @@
 import { clearTimeout } from 'node:timers';
 
-import NexusEvent from './models/NexusEvent.model';
-import NexusEventListener from './models/NexusEventListener.model';
+import { NexusEvent } from './models/NexusEvent.model';
+import { NexusEventListener } from './models/NexusEventListener.model';
 import EmitAsyncOptions from './payloads/emitAsync.payload';
 import NexusEventManagerRepository from './repositories/NexusEventManager.repositories';
 

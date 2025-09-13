@@ -1,4 +1,4 @@
-import NexusEvent from './NexusEvent.model';
+import { NexusEvent } from './NexusEvent.model';
 
 /**
  * Interface representing an event listener within the Nexus system.
@@ -8,8 +8,6 @@ import NexusEvent from './NexusEvent.model';
  *
  * @template T Type of the payload or data associated with the event.
  */
-interface NexusEventListener<T> {
+export interface NexusEventListener<T> {
   handler: (event: NexusEvent<T>) => void | Promise<void>;
 }
-
-export default NexusEventListener;
