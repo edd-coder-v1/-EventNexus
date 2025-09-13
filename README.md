@@ -1,6 +1,6 @@
 # EventNexus
 
-🚀 **EventNexus** es una librería de gestión de eventos moderna y eficiente para TypeScript/JavaScript que facilita la comunicación entre componentes de manera desacoplada y escalable.
+🚀 **EventNexus** es una librería de gestión de eventos sencilla y eficiente para TypeScript/JavaScript que facilita la comunicación entre componentes de manera desacoplada y escalable.
 
 ## ✨ Características
 
