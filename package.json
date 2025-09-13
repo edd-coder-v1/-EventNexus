@@ -1,0 +1,48 @@
+{
+  "name": "@eventnexus/core",
+  "version": "0.1.0",
+  "description": "EventNexus - Event management and state synchronization library",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": true,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "yarn typecheck && yarn lint && tsup --clean && yalc publish && yalc push",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write",
+    "test": "tsx test-library.ts",
+    "test:build": "yarn build && tsx test-library.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@types/axios": "^0.14.4",
+    "@types/node": "^20.0.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "prettier": "^3.6.2",
+    "react": "^19.1.1",
+    "rimraf": "^5.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0"
+  }
+}
